@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neurarm — Aciarc1600 · UN GNEC Spring 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ── INTRO SCREEN ── -->
+<div id="intro-screen">
+  <canvas id="intro-bg-canvas"></canvas>
+
+  <div class="intro-content">
+    <div class="intro-arm-scene">
+      <svg id="bionic-arm-svg" viewBox="0 0 100 265" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="blue-glow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="blue-glow-strong" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <clipPath id="charge-clip">
+            <rect id="charge-rect" x="-5" y="265" width="110" height="0"/>
+          </clipPath>
+        </defs>
+
+        <!-- BASE ARM (dark / uncharged) -->
+        <g id="arm-dark">
+          <!-- Shoulder base -->
+          <path d="M8 265 L92 265 L82 242 L18 242 Z" fill="#181818" stroke="#272727" stroke-width="0.8"/>
+          <!-- Shoulder joint outer -->
+          <circle cx="50" cy="244" r="17" fill="#1f1f1f" stroke="#2e2e2e" stroke-width="0.8"/>
+          <circle cx="50" cy="244" r="9"  fill="#191919" stroke="#353535" stroke-width="0.8"/>
+          <circle cx="50" cy="244" r="3.5" fill="#252525"/>
+          <!-- Upper arm body -->
+          <rect x="28" y="192" width="44" height="52" rx="4" fill="#1c1c1c" stroke="#272727" stroke-width="0.8"/>
+          <!-- Side plates -->
+          <rect x="21" y="200" width="8" height="37" rx="2" fill="#181818" stroke="#262626" stroke-width="0.8"/>
+          <rect x="71" y="200" width="8" height="37" rx="2" fill="#181818" stroke="#262626" stroke-width="0.8"/>
+          <!-- Tech panel lines -->
+          <line x1="34" y1="204" x2="66" y2="204" stroke="#272727" stroke-width="1"/>
+          <line x1="34" y1="215" x2="66" y2="215" stroke="#272727" stroke-width="1"/>
+          <line x1="34" y1="226" x2="66" y2="226" stroke="#272727" stroke-width="1"/>
+          <line x1="34" y1="234" x2="66" y2="234" stroke="#272727" stroke-width="1"/>
+          <!-- Elbow joint -->
+          <circle cx="50" cy="186" r="22" fill="#1f1f1f" stroke="#2e2e2e" stroke-width="0.8"/>
+          <circle cx="50" cy="186" r="13" fill="#1a1a1a" stroke="#333" stroke-width="0.8"/>
+          <rect   x="28" y="184" width="44" height="4" rx="2" fill="#252525" stroke="#2e2e2e" stroke-width="0.5"/>
+          <circle cx="50" cy="186" r="5"  fill="#222" stroke="#383838" stroke-width="0.8"/>
+          <!-- Forearm body -->
+          <rect x="30" y="107" width="40" height="79" rx="4" fill="#1c1c1c" stroke="#272727" stroke-width="0.8"/>
+          <rect x="23" y="115" width="8"  height="57" rx="2" fill="#181818" stroke="#262626" stroke-width="0.8"/>
+          <rect x="69" y="115" width="8"  height="57" rx="2" fill="#181818" stroke="#262626" stroke-width="0.8"/>
+          <line x1="36" y1="120" x2="64" y2="120" stroke="#272727" stroke-width="1"/>
+          <line x1="36" y1="133" x2="64" y2="133" stroke="#272727" stroke-width="1"/>
+          <line x1="36" y1="148" x2="64" y2="148" stroke="#272727" stroke-width="1"/>
+          <line x1="36" y1="162" x2="64" y2="162" stroke="#272727" stroke-width="1"/>
+          <!-- Wrist -->
+          <rect x="34" y="89" width="32" height="20" rx="8" fill="#1f1f1f" stroke="#2c2c2c" stroke-width="0.8"/>
+          <line x1="38" y1="99" x2="62" y2="99" stroke="#2a2a2a" stroke-width="1"/>
+          <!-- Hand back -->
+          <rect x="26" y="28" width="48" height="64" rx="7" fill="#1c1c1c" stroke="#272727" stroke-width="0.8"/>
+          <!-- Finger knuckles -->
+          <rect x="28" y="15" width="11" height="19" rx="4" fill="#1c1c1c" stroke="#272727" stroke-width="0.8"/>
+          <rect x="41" y="12" width="12" height="21" rx="4" fill="#1c1c1c" stroke="#272727" stroke-width="0.8"/>
+          <rect x="55" y="15" width="11" height="19" rx="4" fill="#1c1c1c" stroke="#272727" stroke-width="0.8"/>
+          <!-- Thumb -->
+          <rect x="12" y="42" width="17" height="29" rx="6" fill="#1c1c1c" stroke="#272727" stroke-width="0.8"/>
+          <!-- Hand detail lines -->
+          <line x1="32" y1="47" x2="68" y2="47" stroke="#272727" stroke-width="1"/>
+          <line x1="32" y1="59" x2="68" y2="59" stroke="#272727" stroke-width="1"/>
+          <line x1="32" y1="71" x2="68" y2="71" stroke="#272727" stroke-width="1"/>
+          <line x1="32" y1="82" x2="68" y2="82" stroke="#272727" stroke-width="1"/>
+        </g>
+
+        <!-- CHARGED ARM (blue glow — revealed from bottom up by clip) -->
+        <g id="arm-charged" clip-path="url(#charge-clip)" filter="url(#blue-glow)">
+          <path d="M8 265 L92 265 L82 242 L18 242 Z" fill="#021e1e" stroke="#0a8a8a" stroke-width="0.8"/>
+          <circle cx="50" cy="244" r="17" fill="#076060" stroke="#2dd6d6" stroke-width="0.8"/>
+          <circle cx="50" cy="244" r="9"  fill="#065858" stroke="#86e0e0" stroke-width="0.8"/>
+          <circle cx="50" cy="244" r="3.5" fill="#0a8a8a"/>
+          <rect x="28" y="192" width="44" height="52" rx="4" fill="#042828" stroke="#0a8a8a" stroke-width="0.8"/>
+          <rect x="21" y="200" width="8" height="37" rx="2" fill="#031e1e" stroke="#077070" stroke-width="0.8"/>
+          <rect x="71" y="200" width="8" height="37" rx="2" fill="#031e1e" stroke="#077070" stroke-width="0.8"/>
+          <line x1="34" y1="204" x2="66" y2="204" stroke="#14b8b8" stroke-width="1"/>
+          <line x1="34" y1="215" x2="66" y2="215" stroke="#14b8b8" stroke-width="1"/>
+          <line x1="34" y1="226" x2="66" y2="226" stroke="#14b8b8" stroke-width="1"/>
+          <line x1="34" y1="234" x2="66" y2="234" stroke="#14b8b8" stroke-width="1"/>
+          <circle cx="50" cy="186" r="22" fill="#076060" stroke="#86e0e0" stroke-width="0.8"/>
+          <circle cx="50" cy="186" r="13" fill="#065858" stroke="#2dd6d6" stroke-width="0.8"/>
+          <rect   x="28" y="184" width="44" height="4" rx="2" fill="#083838" stroke="#2dd6d6" stroke-width="0.5"/>
+          <circle cx="50" cy="186" r="5"  fill="#0a8a8a" stroke="#a0e8e8" stroke-width="0.8"/>
+          <rect x="30" y="107" width="40" height="79" rx="4" fill="#042828" stroke="#0a8a8a" stroke-width="0.8"/>
+          <rect x="23" y="115" width="8"  height="57" rx="2" fill="#031e1e" stroke="#077070" stroke-width="0.8"/>
+          <rect x="69" y="115" width="8"  height="57" rx="2" fill="#031e1e" stroke="#077070" stroke-width="0.8"/>
+          <line x1="36" y1="120" x2="64" y2="120" stroke="#14b8b8" stroke-width="1"/>
+          <line x1="36" y1="133" x2="64" y2="133" stroke="#14b8b8" stroke-width="1"/>
+          <line x1="36" y1="148" x2="64" y2="148" stroke="#14b8b8" stroke-width="1"/>
+          <line x1="36" y1="162" x2="64" y2="162" stroke="#14b8b8" stroke-width="1"/>
+          <rect x="34" y="89" width="32" height="20" rx="8" fill="#076060" stroke="#86e0e0" stroke-width="0.8"/>
+          <line x1="38" y1="99" x2="62" y2="99" stroke="#2dd6d6" stroke-width="1"/>
+          <rect x="26" y="28" width="48" height="64" rx="7" fill="#042828" stroke="#0a8a8a" stroke-width="0.8"/>
+          <rect x="28" y="15" width="11" height="19" rx="4" fill="#042828" stroke="#0a8a8a" stroke-width="0.8"/>
+          <rect x="41" y="12" width="12" height="21" rx="4" fill="#042828" stroke="#0a8a8a" stroke-width="0.8"/>
+          <rect x="55" y="15" width="11" height="19" rx="4" fill="#042828" stroke="#0a8a8a" stroke-width="0.8"/>
+          <rect x="12" y="42" width="17" height="29" rx="6" fill="#042828" stroke="#0a8a8a" stroke-width="0.8"/>
+          <line x1="32" y1="47" x2="68" y2="47" stroke="#14b8b8" stroke-width="1"/>
+          <line x1="32" y1="59" x2="68" y2="59" stroke="#14b8b8" stroke-width="1"/>
+          <line x1="32" y1="71" x2="68" y2="71" stroke="#14b8b8" stroke-width="1"/>
+          <line x1="32" y1="82" x2="68" y2="82" stroke="#14b8b8" stroke-width="1"/>
+        </g>
+
+        <!-- Energy pulse dot that travels up the arm -->
+        <circle id="energy-dot" cx="50" cy="265" r="4" fill="#2dd6d6" opacity="0" filter="url(#blue-glow-strong)"/>
+      </svg>
+      <div class="arm-ground-glow"></div>
+    </div>
+
+    <div class="intro-text">
+      <div class="intro-eyebrow">Aciarc1600 · UN GNEC Spring 2026 · SDG Goal 3</div>
+      <h1 class="intro-title">Neurarm</h1>
+      <p class="intro-sub">Functional Electrical Stimulation · Neural Calibration Platform<br>Restoring movement through intelligent muscle signal analysis</p>
+      <button class="intro-cta" id="intro-enter-btn">
+        Launch Platform
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <div class="intro-badges">
+        <span class="intro-badge">20–50 mA FES</span>
+        <span class="intro-badge">6-Task Calibration</span>
+        <span class="intro-badge">Rigidity Protection</span>
+        <span class="intro-badge">Real-Time EMG</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="intro-footer">
+    <span>Neurarm · Neural Analysis Engine v1.2</span>
+    <span>Demo Mode · Simulated Data</span>
+  </div>
+</div>
+
+<!-- Setup modal (first run) -->
+<div id="setup-modal" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-logo">
+      <div class="logo-mark">NB</div>
+      <div>
+        <div class="modal-logo-name">Neurarm</div>
+        <div class="modal-logo-tag">Aciarc1600 · UN GNEC Spring 2026 · SDG Goal 3</div>
+      </div>
+    </div>
+    <h2>Patient Setup</h2>
+    <p class="text-muted mb-20">Enter patient information to personalise the FES calibration.</p>
+    <form id="setup-form">
+      <div class="form-group">
+        <label>Patient Name</label>
+        <input type="text" id="setup-name" placeholder="Full name" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date of Birth</label>
+          <input type="date" id="setup-dob">
+        </div>
+        <div class="form-group">
+          <label>Diagnosis Year</label>
+          <input type="number" id="setup-dx-year" placeholder="e.g. 2021" min="1950" max="2026">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Primary Condition</label>
+        <select id="setup-condition">
+          <option value="parkinsons">Parkinson's Disease</option>
+          <option value="als">ALS</option>
+          <option value="cerebral_palsy">Cerebral Palsy</option>
+          <option value="stroke">Stroke Survivor</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Dominant Hand</label>
+        <div class="radio-group">
+          <label class="radio-label"><input type="radio" name="setup-hand" value="right" checked> Right</label>
+          <label class="radio-label"><input type="radio" name="setup-hand" value="left"> Left</label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-full btn-lg">Begin Setup</button>
+    </form>
+  </div>
+</div>
+
+<!-- App layout -->
+<div class="app-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <canvas id="intel-squares-canvas" aria-hidden="true"></canvas>
+      <div class="logo-mark">NB</div>
+      <div>
+        <div class="logo-name">Neurarm</div>
+        <div class="logo-ver">Aciarc1600 · Demo</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item active" data-view="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" rx="1"/><rect x="14" y="3" width="7" rx="1"/><rect x="3" y="14" width="7" rx="1"/><rect x="14" y="14" width="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a class="nav-item" data-view="calibration">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+        Calibration
+      </a>
+      <a class="nav-item" data-view="tracker">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Live Tracker
+      </a>
+      <a class="nav-item" data-view="history">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18M3 9h18M3 15h12M3 21h8"/></svg>
+        History
+      </a>
+      <a class="nav-item" data-view="profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/></svg>
+        Profile
+      </a>
+      <a class="nav-item" data-view="ai">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.5-.8 2.8-2 3.5V11h2a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-.5l.5 3H8l.5-3H8a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2h2V9.5A4 4 0 0 1 8 6a4 4 0 0 1 4-4z"/></svg>
+        AI Insights
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="device-status">
+        <div class="status-dot demo"></div>
+        <span>Demo Mode</span>
+      </div>
+      <div class="patient-tag" id="sidebar-patient">No patient</div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+
+    <!-- ── DASHBOARD ── -->
+    <div id="view-dashboard" class="view active">
+      <div class="view-header">
+        <div>
+          <h1>Dashboard</h1>
+          <p class="text-muted" id="dashboard-greeting">Welcome back</p>
+        </div>
+        <button class="btn btn-primary" onclick="app.navigate('calibration')">Start Calibration</button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Sessions This Week</div>
+          <div class="stat-value" id="stat-sessions">0</div>
+          <div class="stat-sub">Total: <span id="stat-total">0</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Tremor Index</div>
+          <div class="stat-value" id="stat-tremor">—</div>
+          <div class="stat-sub">Score 0–100 (lower = better)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Velocity Score</div>
+          <div class="stat-value" id="stat-velocity">—</div>
+          <div class="stat-sub">% of calibrated baseline</div>
+        </div>
+        <div class="stat-card accent-card">
+          <div class="stat-label">Calibration</div>
+          <div class="stat-value" id="stat-calib">Not done</div>
+          <div class="stat-sub" id="stat-calib-date">Complete calibration to unlock tracking</div>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>Tremor Index — 30 Days</h3>
+            <span class="badge badge-blue">Historical</span>
+          </div>
+          <div class="chart-wrap"><canvas id="chart-tremor-trend"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>Session Activity</h3>
+            <span class="badge badge-blue">14 Days</span>
+          </div>
+          <div class="chart-wrap"><canvas id="chart-session-bar"></canvas></div>
+        </div>
+      </div>
+
+      <div class="section-header"><h3>Recent Sessions</h3></div>
+      <div id="recent-sessions-list" class="sessions-list">
+        <div class="empty-state">No sessions yet. Complete calibration to start.</div>
+      </div>
+    </div>
+
+    <!-- ── CALIBRATION ── -->
+    <div id="view-calibration" class="view">
+      <div class="view-header">
+        <div>
+          <h1>Calibration Protocol</h1>
+          <p class="text-muted">6 tasks · Per-task FES calibration · 20–50 mA · Never exceeds 50 mA</p>
+        </div>
+        <div class="header-actions">
+          <span class="badge badge-sim">20–50 mA · FES</span>
+          <button class="btn btn-ghost" onclick="app.calibration.reset()">Reset</button>
+        </div>
+      </div>
+
+      <!-- Progress steps -->
+      <div class="progress-steps">
+        <div class="step" data-step="1"><div class="step-dot">1</div><div class="step-label">Rest<br>Baseline</div></div>
+        <div class="step-line"></div>
+        <div class="step" data-step="2"><div class="step-dot">2</div><div class="step-label">Lifting<br>Arm</div></div>
+        <div class="step-line"></div>
+        <div class="step" data-step="3"><div class="step-dot">3</div><div class="step-label">Writing /<br>Utensil</div></div>
+        <div class="step-line"></div>
+        <div class="step" data-step="4"><div class="step-dot">4</div><div class="step-label">Grab<br>Light</div></div>
+        <div class="step-line"></div>
+        <div class="step" data-step="5"><div class="step-dot">5</div><div class="step-label">Grab<br>Heavy</div></div>
+        <div class="step-line"></div>
+        <div class="step" data-step="6"><div class="step-dot">6</div><div class="step-label">Daily<br>Tasks</div></div>
+      </div>
+
+      <div class="calib-main">
+        <!-- Info card -->
+        <div class="calib-info-card">
+
+          <!-- Not started -->
+          <div id="calib-idle">
+            <h2>Ready to Begin</h2>
+            <p class="text-muted">Ensure the sleeve is fitted correctly. Electrodes should contact skin over the target muscle group. Sit at a table in a relaxed position.</p>
+            <div class="checklist">
+              <div class="check-item"><span class="check-tick">✓</span> Sleeve fitted, electrodes on skin</div>
+              <div class="check-item"><span class="check-tick">✓</span> Seated comfortably at a table</div>
+              <div class="check-item"><span class="check-tick">✓</span> FES current limit set (max 50 mA)</div>
+              <div class="check-item"><span class="check-tick">✓</span> Clinician or caretaker present</div>
+            </div>
+            <button class="btn btn-primary btn-lg" onclick="app.calibration.start()">Start Calibration</button>
+          </div>
+
+          <!-- Running -->
+          <div id="calib-running" class="hidden">
+            <div class="test-meta-row">
+              <div class="test-badge-pill" id="calib-test-badge">TEST 1 OF 6</div>
+              <div class="test-dur-label" id="calib-test-dur">3 min</div>
+            </div>
+            <h2 id="calib-test-name">Rest Baseline</h2>
+            <div class="sub-test-label" id="calib-sub-label"></div>
+
+            <div class="timer-wrap">
+              <div class="timer-ring-container">
+                <svg viewBox="0 0 120 120">
+                  <circle class="ring-track" cx="60" cy="60" r="50"/>
+                  <circle class="ring-progress" id="ring-progress" cx="60" cy="60" r="50"/>
+                </svg>
+                <div class="timer-text" id="calib-timer">3:00</div>
+              </div>
+            </div>
+
+            <div class="calib-instructions" id="calib-instructions">
+              Sit with your arm flat on the table, completely relaxed. Do not move intentionally.
+            </div>
+
+            <div class="calib-controls">
+              <button class="btn btn-ghost" id="calib-pause-btn" onclick="app.calibration.togglePause()">Pause</button>
+              <button class="btn btn-primary" id="calib-next-btn" onclick="app.calibration.skip()" disabled>Skip Test</button>
+            </div>
+          </div>
+
+          <!-- Complete -->
+          <div id="calib-done" class="hidden">
+            <div class="complete-circle">✓</div>
+            <h2>Calibration Complete</h2>
+            <p class="text-muted">All 6 tasks finished. FES current levels have been calibrated per task. Rigidity detection is active — stimulation stops automatically if rigidity is sensed.</p>
+            <div id="calib-done-summary" class="calib-summary"></div>
+            <button class="btn btn-primary btn-lg" onclick="app.navigate('tracker')">Start Tracking Session</button>
+          </div>
+        </div>
+
+        <!-- EMG chart -->
+        <div class="calib-chart-card">
+          <div class="chart-header">
+            <h3>Live EMG Signal</h3>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span class="badge badge-sim">Simulated</span>
+              <span class="sig-state-pill" id="calib-sig-state">Waiting</span>
+            </div>
+          </div>
+          <div class="chart-wrap"><canvas id="chart-calib-emg"></canvas></div>
+          <div class="emg-stats-row">
+            <div class="emg-stat"><div class="emg-lbl">Amplitude</div><div class="emg-val" id="emg-amp">— µV</div></div>
+            <div class="emg-stat"><div class="emg-lbl">Frequency</div><div class="emg-val" id="emg-freq">— Hz</div></div>
+            <div class="emg-stat"><div class="emg-lbl">Noise Floor</div><div class="emg-val" id="emg-noise">— µV</div></div>
+            <div class="emg-stat"><div class="emg-lbl">State</div><div class="emg-val" id="emg-state">Idle</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Protocol log -->
+      <div class="chart-card mt-16">
+        <div class="chart-header">
+          <h3>Protocol Log</h3>
+          <button class="btn-text" onclick="document.getElementById('calib-log').innerHTML=''">Clear</button>
+        </div>
+        <div id="calib-log" class="status-log"></div>
+      </div>
+    </div>
+
+    <!-- ── TRACKER ── -->
+    <div id="view-tracker" class="view">
+      <div class="view-header">
+        <div>
+          <h1>Live Tracker</h1>
+          <p class="text-muted" id="tracker-status-label">No active session</p>
+        </div>
+        <div class="header-actions">
+          <span class="badge badge-sim">SIMULATED DATA</span>
+          <button class="btn btn-primary" id="tracker-toggle-btn" onclick="app.tracker.toggle()">Start Session</button>
+        </div>
+      </div>
+
+      <div class="tracker-stats-row">
+        <div class="tracker-stat"><div class="t-lbl">Session Time</div><div class="t-val mono" id="t-time">00:00:00</div></div>
+        <div class="tracker-stat"><div class="t-lbl">Tremor Freq</div><div class="t-val" id="t-freq">— Hz</div></div>
+        <div class="tracker-stat"><div class="t-lbl">Tremor Amp</div><div class="t-val" id="t-amp">— mm</div></div>
+        <div class="tracker-stat"><div class="t-lbl">Velocity Index</div><div class="t-val" id="t-vel">—%</div></div>
+        <div class="tracker-stat"><div class="t-lbl">FES Events</div><div class="t-val" id="t-fes">0</div></div>
+        <div class="tracker-stat"><div class="t-lbl">Rigidity Alert</div><div class="t-val" id="t-rigidity" style="color:var(--success)">None</div></div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>EMG Signal</h3>
+            <div class="legend-row">
+              <span class="leg-dot" style="background:#3b82f6"></span>Raw
+              <span class="leg-dot" style="background:#8b5cf6"></span>Filtered
+            </div>
+          </div>
+          <div class="chart-wrap"><canvas id="chart-tracker-emg"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>Movement (IMU)</h3>
+            <div class="legend-row">
+              <span class="leg-dot" style="background:#10b981"></span>Velocity
+              <span class="leg-dot" style="background:#f59e0b"></span>Target
+            </div>
+          </div>
+          <div class="chart-wrap"><canvas id="chart-tracker-imu"></canvas></div>
+        </div>
+      </div>
+
+      <div class="tracker-bottom-row">
+        <div class="chart-card" style="flex:1">
+          <div class="chart-header">
+            <h3>FES Output</h3>
+            <span class="badge badge-purple">mA · max 50</span>
+          </div>
+          <div class="chart-wrap chart-wrap-sm"><canvas id="chart-tracker-fes"></canvas></div>
+        </div>
+        <div class="chart-card" style="width:300px">
+          <div class="chart-header"><h3>Event Log</h3></div>
+          <div id="tracker-event-log" class="status-log compact"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── HISTORY ── -->
+    <div id="view-history" class="view">
+      <div class="view-header">
+        <div>
+          <h1>Session History</h1>
+          <p class="text-muted" id="history-count">0 sessions recorded</p>
+        </div>
+        <button class="btn btn-ghost" onclick="app.history.exportCSV()">Export CSV</button>
+      </div>
+
+      <div class="chart-card" style="margin-bottom:24px">
+        <div class="chart-header">
+          <h3>Tremor Index & Velocity Score Over Time</h3>
+          <div class="legend-row">
+            <span class="leg-dot" style="background:#ef4444"></span>Tremor
+            <span class="leg-dot" style="background:#10b981"></span>Velocity
+          </div>
+        </div>
+        <div class="chart-wrap chart-wrap-lg"><canvas id="chart-history-trend"></canvas></div>
+      </div>
+
+      <div id="history-sessions-list" class="sessions-list">
+        <div class="empty-state">No sessions recorded yet.</div>
+      </div>
+    </div>
+
+    <!-- ── PROFILE ── -->
+    <div id="view-profile" class="view">
+      <div class="view-header">
+        <div>
+          <h1>Patient Profile</h1>
+          <p class="text-muted">Calibration data and patient information</p>
+        </div>
+        <button class="btn btn-primary" onclick="app.profile.save()">Save Changes</button>
+      </div>
+
+      <div class="profile-grid">
+        <div class="form-card">
+          <h3>Patient Information</h3>
+          <div class="form-group"><label>Full Name</label><input type="text" id="prof-name"></div>
+          <div class="form-row">
+            <div class="form-group"><label>Date of Birth</label><input type="date" id="prof-dob"></div>
+            <div class="form-group"><label>Diagnosis Year</label><input type="number" id="prof-dx-year" min="1950" max="2026"></div>
+          </div>
+          <div class="form-group">
+            <label>Primary Condition</label>
+            <select id="prof-condition">
+              <option value="parkinsons">Parkinson's Disease</option>
+              <option value="als">ALS</option>
+              <option value="cerebral_palsy">Cerebral Palsy</option>
+              <option value="stroke">Stroke Survivor</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Dominant Hand</label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="prof-hand" value="right"> Right</label>
+              <label class="radio-label"><input type="radio" name="prof-hand" value="left"> Left</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Clinician Notes</label>
+            <textarea id="prof-notes" rows="4" placeholder="Optional notes..."></textarea>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-card mb-16">
+            <h3>Calibration Summary</h3>
+            <div id="prof-calib-summary"><div class="empty-state small">No calibration data yet.</div></div>
+          </div>
+          <div class="form-card danger-zone">
+            <h3>Data Management</h3>
+            <p class="text-muted">Permanently delete all session and calibration data.</p>
+            <button class="btn btn-danger" onclick="app.profile.clearData()">Clear All Data</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AI INSIGHTS ── -->
+    <div id="view-ai" class="view">
+      <div class="view-header">
+        <div>
+          <h1>AI Insights</h1>
+          <p class="text-muted">Neural analysis based on your calibration and session history</p>
+        </div>
+        <div class="header-actions">
+          <span class="badge badge-purple">Neurarm NAE v1.2</span>
+          <button class="btn btn-primary" onclick="app.ai.analyze()">Re-analyse</button>
+        </div>
+      </div>
+
+      <!-- No calibration state -->
+      <div id="ai-no-calib" class="empty-state" style="display:none">
+        Complete a calibration session first — the AI model needs your muscle baseline data to generate insights.
+      </div>
+
+      <!-- Results -->
+      <div id="ai-results" style="display:none">
+
+        <!-- Model header card -->
+        <div class="ai-model-card">
+          <div class="ai-model-header">
+            <div class="ai-brain-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><path d="M12 2a4 4 0 0 1 4 4c0 1.5-.8 2.8-2 3.5V11h2a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-.5l.5 3H8l.5-3H8a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2h2V9.5A4 4 0 0 1 8 6a4 4 0 0 1 4-4z"/></svg>
+            </div>
+            <div>
+              <div class="ai-model-name">Neurarm Neural Analysis Engine</div>
+              <div class="ai-model-sub">EMG · FES · Tremor · Rigidity Classification Model</div>
+            </div>
+            <div class="ai-confidence-pill">
+              <span class="ai-conf-label">Confidence</span>
+              <span class="ai-conf-val" id="ai-confidence">—</span>
+            </div>
+          </div>
+          <div class="ai-conclusion-text" id="ai-conclusion">—</div>
+        </div>
+
+        <!-- Energy & tremor row -->
+        <div class="ai-metrics-row">
+          <div class="ai-metric-card">
+            <div class="ai-metric-icon" style="background:rgba(59,130,246,0.12);color:var(--accent)">⚡</div>
+            <div>
+              <div class="ai-metric-label">Avg FES Energy Demand</div>
+              <div class="ai-metric-val" id="ai-avg-ma">— mA</div>
+              <div class="ai-metric-sub" id="ai-avg-ma-sub">across all tasks</div>
+            </div>
+          </div>
+          <div class="ai-metric-card">
+            <div class="ai-metric-icon" style="background:rgba(239,68,68,0.12);color:var(--danger)">〰</div>
+            <div>
+              <div class="ai-metric-label">Peak FES Requirement</div>
+              <div class="ai-metric-val" id="ai-peak-ma">— mA</div>
+              <div class="ai-metric-sub">heavy-load tasks</div>
+            </div>
+          </div>
+          <div class="ai-metric-card">
+            <div class="ai-metric-icon" style="background:rgba(16,185,129,0.12);color:var(--success)">Hz</div>
+            <div>
+              <div class="ai-metric-label">Tremor Frequency</div>
+              <div class="ai-metric-val" id="ai-tremor-freq">— Hz</div>
+              <div class="ai-metric-sub" id="ai-tremor-type">—</div>
+            </div>
+          </div>
+          <div class="ai-metric-card">
+            <div class="ai-metric-icon" style="background:rgba(139,92,246,0.12);color:var(--purple)">∑</div>
+            <div>
+              <div class="ai-metric-label">Est. Session Energy</div>
+              <div class="ai-metric-val" id="ai-total-energy">— mJ</div>
+              <div class="ai-metric-sub">per 30-min session</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Muscle group breakdown -->
+        <div class="charts-row">
+          <div class="chart-card">
+            <div class="chart-header">
+              <h3>FES Amplitude — Per Muscle Group</h3>
+              <span class="badge badge-purple">Calibrated</span>
+            </div>
+            <div id="ai-muscle-bars" class="ai-muscle-bars"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header">
+              <h3>Signal Quality Score</h3>
+              <span class="badge badge-blue">EMG Analysis</span>
+            </div>
+            <div id="ai-signal-scores" class="ai-signal-scores"></div>
+          </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>AI Recommendations</h3>
+            <span class="ai-gen-tag">Model-generated</span>
+          </div>
+          <div id="ai-recommendations" class="ai-recs"></div>
+        </div>
+
+        <!-- Session trend if available -->
+        <div class="chart-card" id="ai-trend-card" style="margin-top:12px;display:none">
+          <div class="chart-header">
+            <h3>Tremor Index Trend Analysis</h3>
+            <span class="badge badge-blue">Historical</span>
+          </div>
+          <div class="ai-trend-summary" id="ai-trend-summary"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
